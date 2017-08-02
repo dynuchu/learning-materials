@@ -1,0 +1,873 @@
+# -*- Mode: org -*- 
+
+#+TITLE: JavaScript ES6 and React
+
+* Inroducing JavaScript
+** What is JavaScript?
+   - Small, lightweight object-oriented scripting language that connects objects in hosts environments and controls them
+   - JS on the client-side accesses the Document Object Model to handle user interaction
+   - JS on the server-side can run servers and communicate to databases
+
+* JavaScript Language and Essentials
+** Statements and Data Types
+** Javascript objects
+#+BEGIN_SRC js
+    var dog = {
+    name: 'Buddy',
+    breed: 'Golden Retriever',
+    weight: 60,
+    bark: function() {
+        console.log("Woof")
+    }
+ };
+#+END_SRC
+
+** Arrays and Array Methods
+#+BEGIN_SRC js
+  var points = [25,16,7,9,31];
+  var first = points[0];
+  points.push(8);
+  var last = points.pop();
+  console.log(points, last, first);
+  console.log(points.length);
+#+END_SRC 
+
+** Booleans and Comparison Operators
+#+BEGIN_SRC js
+  var a = a == 5;
+  console.log(a);
+#+END_SRC
+
+** If statements
+#+BEGIN_SRC js
+var x = 10;
+
+if (8 > x) {
+	console.log("8 is greater")
+} else  if (15 > x){
+	console.log("15 is greater")
+} else {
+	console.log("8 is not greater")
+}
+#+END_SRC
+Checking if a number is odd or even
+#+BEGIN_SRC js
+var check = function (number) {
+	if(number % 2 == 0) {
+		console.log(number + " is even")
+	} else {
+		console.log(number + " is odd")
+	}
+}
+check(4);
+check(7);
+check(10);
+#+END_SRC
+
+** Switch statements
+#+BEGIN_SRC js
+var x = 1;
+
+switch(x) {
+	case 1:
+		console.log("The number is one")
+		break;
+	case 2:
+		console.log("The number is two")
+		break;
+	case 3:
+		console.log("The number is three")
+		break;
+	default;
+		console.log("The number is " + x);
+		break;
+
+}
+#+END_SRC
+
+
+#+BEGIN_SRC js
+
+#+END_SRC
+
+** For loops
+#+BEGIN_SRC js
+for (var i=0; i<5; i++) {
+	console.log(i);
+}
+#+END_SRC   
+
+
+#+BEGIN_SRC js
+var names = ["Frodo", "Sam", "Merry", "Pippin"]
+
+for (var i=0; i<names.length; i++) {
+	console.log(names[i]);
+}
+#+END_SRC
+** While loops
+#+BEGIN_SRC js
+var i = 0;
+while (i<names.length) {
+	console.log(names[i]);
+	i++;
+}
+#+END_SRC
+#+BEGIN_SRC js
+var i = 0;
+do {
+	console.log(names[i]);
+	i++;
+} while (i<names.length);
+#+END_SRC
+* Setting up an ES6 Development Environment
+** Presenting ES6, Babel and Webpack
+*** EcmaScript 6
+    - Arrow functions, enchanced collections, generators and more
+    - ES6 code feels very clean, intuitive, and well designed
+    - Babel and Webpack help create an ES6 development environment
+*** Why we need Babel and transpilers?
+**** What is a transpiler?
+    - A transpiler reads code written in one language and produces the equivalent code in another
+**** WHy do we need transpilers?
+    - Browsers only currently have widespread support of older JS
+    - Transpilers convert advanced TypeScript and CoffeeScript code back into the original JS
+**** Babel
+    - Transpiles ES6 back into the supported pre-es6 JS
+**** How Babel Works
+    - You can try it out at: babeljs.io
+**** Benefits of Webpack
+    - It bundles modules into one .js file
+    - Comes with a dev-server
+**** Setting up with Webpack
+In your directory:
+#+BEGIN_SRC sh
+npm init -y
+npm install --save webpack
+#+END_SRC 
+
+**** Adding Babel to Webpack
+#+BEGIN_SRC sh
+npm install babel-core babel-loader webpack-dev-server babel-preset-es2015 babel-polyfill --save-dev
+#+END_SRC 
+* Understanding ES6 Essentials
+** Presenting New ES6 Syntax
+*** Assignment in ES6
+#+BEGIN_SRC js
+  var limit = 100;
+
+  let limit = 100;
+
+  const limit = 100;
+  limit += 10; // error
+#+END_SRC
+*** Block Scoping
+  - Local scoope
+  - Global scope
+*** Template Literals
+  - Strings with embedded expressions
+  - Eases updating strings and concatenation
+#+BEGIN_SRC js 
+  let insert = 'world';
+  `Hello, ${insert} ...` //example of a template literal 
+#+END_SRC
+** Assignment with Let and Const
+  - if we are having a const list, array.push method can add new items to it!
+#+BEGIN_SRC
+const emails = ['frodo@email.com', 'samwise@email.com', 'merry@email.com'];
+emails.push('pippin@email.com');
+console.log(emails);
+#+END_SRC
+** Control with Block Scoping
+#+BEGIN_SRC js
+let limit = 200;
+
+
+{
+	let limit = 10;
+	console.log('backstage limit', limit);
+}
+
+console.log('overall venue limit', limit);
+#+END_SRC
+
+#+BEGIN_SRC js
+function hello() {
+	let message = "Hello";
+	console.log(message);
+}
+
+function greeting() {
+	let message = "How are you?";
+	console.log(message);
+}
+
+hello();
+greeting();
+#+END_SRC
+** Template Literals
+#+BEGIN_SRC js :exports both
+let a = `good`;
+let greeting = `${a} morning`;
+console.log(greeting);
+#+END_SRC
+** Operating and Destructing Prewiev
+   - Spread Operator
+   - Rest Parameters
+   - Destruction Assignment simplifies extracting data on arrays and objects into distinct variables
+
+Spread Operator
+#+BEGIN_SRC js
+let a = [20, 30, 40];
+let b = [10, ...a, 50]; //spread operator
+console.log(b);
+#+END_SRC
+
+#+BEGIN_SRC js
+let a = ['Dana', 'Erik', 'Frank'];
+let b = ['Alice', 'Bob', 'Carl', ...a];
+console.log(b);
+#+END_SRC
+
+Rest Parameters
+#+BEGIN_SRC js
+function collect (...a) {
+console.log(a);
+}
+collect(1, 2, 3, 4, 5);
+collect(3, 6, 9, 12, 15)
+#+END_SRC
+
+Deconstructing Arrays
+#+BEGIN_SRC js
+//old way
+let z = [4, 5, 6];
+let four = z[0];
+let five = z[1];
+console.log(four, five);
+
+//new way
+let z = [4, 5, 6];
+let [four, five] = z;
+console.log(four, five);
+
+let animals = ["Simba", "Zazu", "Ed"];
+let [lion, bird] = animals;
+console.log(lion, bird);
+#+END_SRC
+
+Deconstructing Objects
+#+BEGIN_SRC js
+//old way
+let king = { name: 'Mufasa', kids: 1};
+let name = king.name;
+let kids = king.kids;
+console.log(name, kids);
+
+// new way
+let king = { name: 'Mufasa', kids: 1};
+let {name, kids} = king;
+console.log(name, kids);
+
+let son = { name: 'Simba', parents: 2};
+let name, parents;
+({ name, parents } = son);
+console.log(name, parents);
+#+END_SRC
+** Methods and Modules
+*** Arrow Functions
+  - arrow functions are anonymous
+
+#+BEGIN_SRC js
+setTimeout(() => {
+	console.log("Wohooo");
+}, 3000);
+
+let cheer = () => {
+	console.log("Wohooo");
+}
+
+cheer();
+#+END_SRC
+*** Helper methods
+**** Map method
+  - the map method creates new arrays by calling a function on individual elements in an original array
+#+BEGIN_SRC js
+let values = [20, 30, 40];
+
+let double = (n) => {
+	return n*2;
+}
+
+let doubled = values.map(double);
+console.log(doubled);
+
+// shortened
+let values = [20, 30, 40];
+
+let doubled = values.map((n) => {
+	return n*2;
+});
+console.log(doubled);
+
+// even shorter
+let values = [20, 30, 40];
+
+let doubled = values.map((n) => n*2);
+console.log(doubled);
+#+END_SRC
+
+**** Filter method  
+- the filter method creates new arrays based on an original array and a certain test on each of its element
+#+BEGIN_SRC js
+let points = [7, 16, 21, 4, 3, 22, 5];
+let highScores = points.filter((n) => {
+	return n > 15;
+})
+
+console.log(highScores);
+
+//shorter 
+let points = [7, 16, 21, 4, 3, 22, 5];
+let highScores = points.filter((n) => n > 15)
+
+console.log(highScores);
+#+END_src
+
+*** Modules
+  - split code into unique files based on relevant data
+  - handled in ES6 via the export and import keywords
+*** Function expression
+  - anonymous function expression - no name assigned
+  #+BEGIN_SRC js
+  setTimeout(function () {
+	console.log("Wohooo");
+}, 3000);
+  #+END_SRC
+** Presenting Additional ES6 Built-in methods
+*** String Manipulation and Number Checking
+**** String Helper methods - String.repeat()
+   - returns a new string of concatenated copies
+#+BEGIN_SRC js
+let b = "wooh" + "oo".repeat(50);
+console.log(b);
+
+let b = `woo${"oo".repeat(50)}`;
+console.log(b);
+#+END_SRC
+**** Searching
+   - with ~startsWith~, ~endsWith~, ~includes~, and more...
+#+BEGIN_SRC js
+console.log("butterfly".startsWith("butter"));
+console.log("fly".endsWith("fly"));
+console.log("butterfly".includes("tt"));
+#+END_SRC
+**** Number checking 
+   - for type and safety
+#+BEGIN_SRC js
+// isFinite method
+const addToCart = (item, number) => {
+	return Number.isFinite(number);
+}
+
+console.log(addToCart('shirt', 5));
+
+// isSafeInteger method
+const addToCart = (item, number) => {
+	return Number.isSafeInteger(number);
+}
+
+console.log(addToCart('shirt', Math.pow(2, 54)));
+
+#+END_SRC
+*** Modules
+fellowship.js
+#+BEGIN_SRC js
+const fellowship = ['Frodo', 'Samwise', 'Gandalf'];
+const total = fellowship.length;
+
+export { fellowship, total };
+#+END_SRC
+
+index.js
+#+BEGIN_SRC js
+import { fellowship, total } from './fellowship';
+console.log(fellowship, total);
+#+END_SRC
+
+math.js
+#+BEGIN_SRC js
+const add = (a, b) => {
+	return a+b;
+}
+
+const multiply = (a, b) => {
+	return a*b;
+}
+
+export {add, multiply};
+export default multiply;
+#+END_SRC
+
+index.js
+#+BEGIN_SRC js
+import { add } from './math';
+import multiply from './math';
+console.log(add(5, 15 ));
+console.log(multiply(5,10));
+#+END_SRC
+* Classes and Prototypes
+** Presenting Classes
+  - Relate to each oter through inheritence
+  - Defined with the class keyword and uses a constructor
+  - The extends keyword creates child classes
+#+BEGIN_SRC js
+class Animal {
+	constructor(name, height) {
+		this.name = name;
+		this.height = height;
+	}
+	hello() {
+		console.log(`Hi! I'm ${this.name} from the Animal kingdom`);
+	}
+}
+
+let king = new Animal("Mufasa", 4.5);
+console.log(king)
+king.hello();
+#+END_SRC
+** Inheriting Classes
+animal.js
+#+BEGIN_SRC js
+class Animal {
+	constructor(name, height) {
+		this.name = name;
+		this.height = height;
+	}
+	hello() {
+		console.log(`Hi! I'm ${this.name} from the Animal kingdom`);
+	}
+}
+
+export default Animal;
+#+END_SRC
+
+index.js
+#+BEGIN_SRC js
+import Animal from './Animal';
+
+class Lion extends Animal {
+	constructor(name, height, color) {
+		super(name, height);
+		this.color = color;
+	}
+	hello() {
+		console.log(`Hi, I'm ${this.name} from Pride rock!`)
+	}
+}
+
+let son = new Lion("Simba", 2, "golden");
+son.hello();
+
+
+#+END_SRC
+** Static Methods
+#+BEGIN_SRC js
+class Calculator {
+	static multiply(a, b) {
+		return a*b;
+	}
+	static add(a, b) {
+		return a+b;
+	}
+}
+
+let a = Calculator.multiply(5, 7);
+console.log(a);
+let b = Calculator.add(5, 7);
+console.log(b);
+#+END_SRC
+** Differences Between Classes & Prototypes
+  - Objects or classes hold relevant data that interact with each other
+  - Major languages support OOP
+  - JavaScript supports a prototypal inheritance model
+*** JavaScript Prototypes
+  - Classes are extractions on top of JavaScript prototypes
+  - A prototype reveals an object's parent
+  - All objects - Arrays, Dates, etc. - have a prototype
+#+BEGIN_SRC js
+function Wizzard(name, house, pet) {
+	this.name = name;
+	this.house = house;
+	this.pet = pet;
+
+	this.greet = () => `I'm from ${this.name} from ${this.house}`
+}
+
+Wizzard.prototype.pet_name;
+
+Wizzard.prototype.info = function() {
+	return `I have a ${this.pet} named ${this.pet_name}`
+}
+
+let harry = new Wizzard("Harry Potter", "Gryffindor", "Owl");
+harry.pet_name = "Hedwig";
+console.log(harry.info());
+#+END_SRC
+* Data Structures in ES6
+** Presenting Data Structures
+*** The Set
+  - The set stores unique values
+  - Sets prove advantageous in storing no duplicates
+#+BEGIN_SRC js
+let a = new Set();
+a.add(5);
+a.add(43);
+a.add("Wohoo");
+a.add({x: 50, y: 200});
+console.log(a);
+// size of the set
+console.log(a.size);
+// does it have a specific value?
+console.log(a.has(5));
+#+END_SRC
+
+Iterating over the elements
+#+BEGIN_SRC js
+let numbers = [5, 7, 8, 13, 17];
+let numSet = new Set(numbers);
+console.log(numSet);
+
+for (let element of numSet.values()) {
+	console.log(element);
+}
+#+END_SRC
+
+Char-set example
+#+BEGIN_SRC js
+let chars = 'asljasdfhakghadskhsdnxbkhakefnsdnaldkjsnkja';
+let chars_arr = chars.split("");
+let chars_set = new Set(chars_arr);
+console.log(chars_set);
+#+END_SRC
+*** Maps
+  - Maps have keys and values
+  - Maps share much similarity to objects
+  - But maps beat objects with superior keys and the size property
+
+#+BEGIN_SRC js
+let a = new Map();
+let key_1 = "string key";
+let key_2 = { a: 'key' };
+let key_3 = function() {};
+a.set(key_1, 'retun value for a string key');
+a.set(key_2, 'return value for an object key');
+a.set(key_3, 'return value for a function key');
+console.log(a);
+#+END_SRC
+
+Iterating over map elements
+#+BEGIN_SRC js
+let numArr = [[1, 'one'], [2, 'two'], [3, 'three']];
+let valMap = new Map(numArr);
+
+for (let [key, value] of valMap.entries()) {
+	console.log(`${key} points to ${value}`);
+}
+#+END_SRC
+
+Count instances and store them in a map
+#+BEGIN_SRC js
+let string = 'slfasdknvafdgleosdvjadlghaosldkgalkhjdsf';
+
+let letters = new Map();
+for (let i=0; i<string.length; i++) {
+	let letter = string[i];
+	if (!letters.has(letter)) {
+		letters.set(letter, 1);
+	} else {
+		letters.set(letter, letters.get(letter) + 1);
+	}
+}
+
+console.log(letters)
+#+END_SRC
+* Closures in ES6
+** Presenting Closures
+ - remember their creation environment and can reference independent variables within that environment
+ - enable function factories
+ - enable private data
+#+BEGIN_SRC js
+let call = () => {
+	let secret = 'ES6 rocks';
+	let reveal = () => {
+		console.log(secret)
+	}
+	reveal();
+}
+
+call();
+#+END_SRC
+
+Lexical scoping
+#+BEGIN_SRC js
+let call = () => {
+	let secret = 'ES6 rocks';
+	let reveal = () => {
+		console.log(secret)
+	}
+	return reveal;
+}
+
+call();
+
+let unveil = call();
+unveil();
+#+END_SRC
+** Function Factories
+#+BEGIN_SRC js
+const addSuffix = (x) => {
+	const concat = (y) => {
+		return y + x;
+	}
+	return concat;
+}
+
+let add_ness = addSuffix("ness");
+console.log(add_ness);
+let h = add_ness("happi");
+console.log(h);
+
+// another example
+const addSuffix = (x) => {
+	const concat = (y) => {
+		return y + x;
+	}
+	return concat;
+}
+
+let add_ful = addSuffix("ful");
+let f = add_ful("fruit");
+console.log(f);
+#+END_SRC
+
+Math example
+#+BEGIN_SRC js
+const product = (x) => {
+	return y => {
+		return y * x;
+	}
+}
+
+let mult5 = product(5);
+console.log(mult5(3));
+
+let double = product(2);
+console.log(double(9));
+
+//shorter
+const product = (x) => {
+	return y => y * x
+}
+
+// even shorter
+const product = x => y => y * x;
+#+END_SRC
+** Private Methods
+#+BEGIN_SRC js
+const budget = () => {
+	let balance = 0;
+	let changeBal = (val) => {
+		return balance += val;
+	}
+	const deposit20 = () => changeBal(20);
+	const withdraw20 = () => changeBal(-20);
+
+	const check = () =>  balance;
+
+	return {
+		deposit20: deposit20,
+		withdraw20: withdraw20,
+		check: check
+	}
+}
+
+let wallet = budget();
+console.log(wallet);
+wallet.deposit20();
+wallet.withdraw20();
+wallet.deposit20();
+wallet.deposit20();
+console.log(wallet.check());
+console.log(wallet.balance);
+
+// shorter
+const budget = () => {
+	let balance = 0;
+	let changeBal = (val) => {
+		return balance += val;
+	}
+	const deposit20 = () => changeBal(20);
+	const withdraw20 = () => changeBal(-20);
+
+	const check = () =>  balance;
+
+	return { deposit20, withdraw20, check }
+}
+#+END_SRC
+* ES6 Generators
+** Presenting Generators
+ - Break the typical "run to completion" model of functions
+ - Generators can pause, and reusme, with =yield= and =next()=
+#+BEGIN_SRC js
+function* letterMaker() {
+	yield 'a';
+	yield 'b';
+	yield 'c';
+}
+
+let letterGen = letterMaker();
+console.log(letterGen.next().value);
+#+END_SRC
+
+Other example
+#+BEGIN_SRC js
+function* countMaker() {
+	let count = 0;
+	while (count < 3) {
+		yield count += 1;
+	}
+}
+
+let counGen = countMaker();
+console.log(counGen.next().value);
+console.log(counGen.next().value);
+console.log(counGen.next().value);
+console.log(counGen.next().value);
+console.log(counGen.next().value);
+#+END_SRC
+** Controlling Flow with Generators
+#+BEGIN_SRC js
+function* evens() {
+	let count = 0;
+	while (true) {
+		count += 2;
+		let reset = yield count;
+		if (reset) {
+			count = 0;
+		}
+	}
+}
+
+let sequence = evens();
+console.log(sequence.next().value);
+console.log(sequence.next().value);
+console.log(sequence.next().value);
+console.log(sequence.next().value);
+console.log(sequence.next(true).value);
+console.log(sequence.next().value);
+#+END_SRC
+** Regenerators vs. Iterators
+#+BEGIN_SRC js
+const arrayIterator = (array) => {
+	let index = 0;
+
+	return {
+		next: () => {
+			if (index < array.length) {
+				let next = array[index];
+				index +=  1;
+				return next;
+			}
+		}
+	}
+}
+
+let it = arrayIterator([1, 2, 3]);
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+#+END_SRC
+
+Generator example
+#+BEGIN_SRC js
+
+function* arrayIterator() {
+	for (let arg of arguments) {
+		yield arg;
+	}
+}
+
+var it = arrayIterator(1, 2, 3);
+console.log(it.next().value);
+
+// shorter
+function* arrayIterator() {
+	yield* arguments;
+}
+
+var it = arrayIterator(1, 2, 3);
+console.log(it.next().value);
+#+END_SRC
+* Asynchronous Programming Promises
+** Presenting Asynchronous Programming and Promises
+ - Synchronous programs run in sequence wihtout blocking
+ - Asynchronous programs divert blocking to event handlers
+*** Why Asynchronous Progamming Matters
+ - User Interfaces and browsers handle events asynchronously
+ - Asynchronous programming uderlies database, server, and API interaction
+*** Asynchronous Programming in ES6
+ - Promises handle asynchronous functions in ES6
+ - Promises exist in three states: Pending, Fulfilled & Rejected
+
+Resolve
+#+BEGIN_SRC js
+let p = new Promise((resolve, reject) => {
+	resolve('Resolved promise data');
+})
+p.then(response => console.log(response));
+
+#+END_SRC
+
+Reject
+#+BEGIN_SRC js
+let p = new Promise((resolve, reject) => {
+	reject('Rejected promise data');
+})
+p.then(response => console.log(response))
+ .catch(error => console.log(error));
+
+#+END_SRC
+
+setTimeout
+#+BEGIN_SRC js
+let p = new Promise((resolve, reject) => {
+	setTimeout(() => resolve('Resolved promise data', 3000));
+})
+
+
+p.then(response => console.log(response))
+ .catch(error => console.log(error));
+
+console.log('after promise consumption');
+#+END_SRC
+** Presenting HTTP Request Methods and Fetch
+*** HTTP - Hyper Text Transfer Protocol
+ - A server provides resources based on HTTP Requests
+*** HTTP Request Methods
+ - GET - retrieves data and has no secondary effect 
+ - POST - sends data to a server to add resources
+ - HEAD, DELETE, PATCH...
+
+Fetch
+#+BEGIN_SRC js
+const root = 'https://jsonplaceholder.typicode.com/posts/1';
+
+fetch(root, { method: "GET"} )
+	.then(response => response.json())
+	.then(json => console.log(json));
+#+END_SRC
+
+* React 
+** Setting up and JSX
