@@ -1,0 +1,47 @@
+#+TTILE: REACT
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style1.css" />
+* React Basics
+** React Components
+- they are re-usable and independent pieces of React code that comprise the User Interface
+** ES6 importing and exporting 
+- a new syntax for sharing code between separate files
+- used in cases like: =`import React from ‘react’`=
+** State 
+- the pertinent data to an application
+- to declare add the constructor to a Component and declare its state object
+** Updating State
+- when updating state, make sure to never mutate state directly
+- doing do will lead to fatal errors in your application
+- instead re-declare new instances of state arrays or objects and use the =setState()= function to update state
+** Props
+- similar to state, except this data inherits from parent component specifying pieces of state as properties
+** LifeCycle Methods
+- events in React components that trigger in cases such as rendering on or off the screen or during state updates
+- eg. the =componentDidMount()=
+* Redux
+- A JavaScript library which allows React applications to extract their data into one giant store
+** Three steps to adding Redux
+1) Define a redux contant
+2) Add an action creator
+3) Amend or add a reducer
+** Redux Components
+*** Constants
+- constants that allow actions and reducers in redux to listen to the same type to ensure that it recogniyes true data
+*** Action Creators
+- methods that create and return actions for reducers to manipulate the redux store
+*** Actions
+- the plain JavaScript object that Action Creators return 
+- most include a type parameter with a Redux constant and a certain data payload
+*** Reducers
+- extract the Redux logic for the store into functions that handle actions and return pieces of the state
+*** Provider 
+- a component at the root of your redux application that provides the redux store globally
+*** mapDispatchToProps
+- allows action creators to become accessible within Reac Components through this.props
+*** mapStateToProps
+- allows reducers in the redux store to become accessible within this.props in React Components through this.props
+*** bindActionCreators
+- a Redux method that allows action creators to store within this.props in React Components
+*** Cookies
+- string names that ap string values stored on the browser
+- allows applications to keep a local history of data on a browser
