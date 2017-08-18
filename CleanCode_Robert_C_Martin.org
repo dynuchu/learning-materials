@@ -1,0 +1,170 @@
+#+TITLE: Clean Code
+
+* Chapter 1: Clean Code
+** There Will Be Code
+** Bad Code
+- Bad code can bring a company down
+** The Total Cost Of Owning a Mess
+*** The Grand Redesign in the Sky
+- spending time keeping your code clean is not just cost effective; it's a matter of professional survival
+*** Attitude
+- it's your job to defent the code with passion
+*** The Primal Conundrum
+- the only way to make the deadline is to keep the code as clean as possible at all times
+*** The Art of Clean Code?
+- "code-sense" is the key 
+- a programmer with "code-sense" will look at a messy module and see options and variations
+- a programmer without it can look at messy code and recognize the mess but will have no idea what to do about it
+*** What is Clean Code?
+**** Bjarne Stroustrup, inventor of C++
+- elegant and efficient
+- bad code tempts the mess to grow
+- error handling should be complete
+- does one thing well, is focused
+**** Grady Booch, author of Object Oriented Analysis and Design with Applications
+- simple and direct
+- reads well 
+**** "Big" Dave Thomas, founder of OTI, godfather of the Eclipse strategy
+- can be read and enhanced easily by other people
+- has tests
+- minimal
+- literate
+**** Michael Feathers, author of Working Effectively with Legacy Code
+- care - someone has taken the time to keep it simple and orderly
+**** Ron Jeffries, author of Extreme Programming Installed and Extreme Programming Adventures in C#
+Simple code:
+- runs all the tests
+- contains no duplication
+- express all the design ideas that are in the system
+- minimizes the number of entities such as classes, methods, functions and the like
+**** Ward Cunningham, inventor of Wiki, inventor of Fit, coinventor of eXtreme Programming. Motive force behind Design Patterns, Smalltak and OO thought leader
+- pretty much what you expected
+*** We are Authors
+- one thing about authors is that they have readers 
+- they are responsible for communicating well with their readers
+- next time you write a line of code, remember you are an author, writing for readers who will judge your effort
+- reading vs writing ratio is well over 10:1, so we want the reading of code to be easy
+*** The Boy Scout Rule
+- leave the campground cleaner than you found it
+* Chapter 2: Meaningful Names
+** Introduction 
+- names are everywhere in software... variables, functions, arguments, classes, packages, etc...
+** Use Intention-Revealing Names
+- choosing good names takes time but saves more than it takes
+- the name of a variable, function, or class should answer all the big questions: why it exists, what it does and how it is used
+#+BEGIN_SRC java
+public List<int[]> getThem() {
+  List<int[]> list1 = new ArrayList<int[]>();
+  for (int[] x : theList)
+    if (x[0] == 4)
+      list1.add(x);
+  return list1;
+}
+#+END_SRC
+
+Improved verion
+#+BEGIN_SRC java
+public List<Cell> getFlaggedCells() {
+  List<Cell> flaggedCells = new ArrayList<Cell>();
+  for (Cell cell : gameBoard) 
+    if (cell.isFlagged())
+      flaggedCells.add(cell);
+  return flaggedCells;
+}
+#+END_SRC
+** Avoid Disinformation
+- we should avoid words whose entrenched meaning vary from our intended meaning 
+- beware of using names which vary in small ways ( ~XYZControllerForEfficientHandlingOfString~ or ~XYZControllerForEfficientStorageOfString~ )
+** Make Meaningful Distinctions
+- if names must be different, then they should also mean something different
+** Use Pronunceable Names
+- if you can't pronounce it, you can't discuss it without sounding like an idiot
+** Use Searchable Names
+- single-letter names and numeric constants have a particular problem in that they are not easy to locate across a body of text
+- the length of a name should correspond to the siye of its scope
+** Avoid Encodings
+** Class Names
+- classes and objects should have noun or noun phrase names like ~Customer, WikiPage, Account~ and ~AddressParser~
+- avoid words like ~Manager, Processor, Data,~ or ~Info~
+- a class name should not be a verb
+** Method Names
+- method names should have verb or verb phrase names like ~postPayment, deletePage,~ or ~save~
+- accessors, mutators and predicates should be named for ther value and prefixed with ~get, set~, and ~is~
+** Don't Be Cute
+- choose clairty over entertainment value
+** Pick One Word per Concept
+- pict one word for one abstract concept and stick with it
+- it's confusing to have fetch, retrieve and get as equivalent methods of differenct classes
+** Don't Pun
+- avoid using the same word for two purposes
+** Use Solution Domain Names
+- people who read your code will be programmers - so go ahead and use computer science (CS) terms, algorithm names, pattern names, etc.
+** Use Problem Domain Names
+** Add Meaningful Context
+- you need to place names in context for your reader by enclosing them in well-named classes, functions or namespaces
+** Don't Add Gratutious Context
+- shorter names are generally better than longer ones, so long as they are clear
+- add no more context to a name than is necessary
+* Chapter 3: Functions
+** Small!
+- functions should be small
+** Do One Thing
+- the reason we write functions is to decompose a larger concept into a set of steps at the next level of abstraction
+- another way to know that a function is doing more than 'one thing' is if you can extract another function from it with a name that is not merely a restatement of its simplementation 
+** One Level of Abstraction per Function
+** Reading Code from Top to Bottom: The Stepdown Rule
+- we want the code to read like a top-down narrative
+- we want every function to be followed by those at the next level of abstraction so that we can read the program, descending one level of abstraction at a time as we read down the list of functions
+** Switch Statements
+- they can be tolerated if they appear only once, are used to create polymorhpic objects, and are hidden behind an inheritance relationship so the rest of the system can't see them
+** Use Descriptive Names
+- don't be afraid to make a name long, a long descriptive name is better than a short enigmatic name
+- a long descriptive name is better than a long descriptive comment
+- be consistent in your names, use the same phrases, nouns, and verbs in the function names you choose for modules
+** Function Arguments
+- the ideal number of arguments for a function is zero (monadic)
+- next comes one, followed closely by two (dyadic)
+- three arguments(triadic) should be avoided where possible, more than three requires very special justification
+- one input argument is the next best thing to no arguments
+*** Common Monadic Forms
+- two very common reasons to pass a single argument into a function:
+  - you may be asking a question about that argument
+  - or you may be operating on that argument, transforming it into something else and returning it
+*** Flag Arguments
+- passing a boolean into a function is a trully terrible practice
+*** Dyadic Funtions
+- there are times, where two arguments are appropriate
+*** Triads
+- think very carefully before creating a triad
+*** Argument Objects
+- when a function seems to need more than two or three arguments, it is likely that some of those arguments ought to be wrapped into a class of their own
+- reducing the number of arguments by creating objects out of them may seem like cheating, but it's not
+*** Argument Lists
+*** Verbs and Keywords
+***  Have No Side Effects
+- your function promises to do one thing, but it also does other hidden things
+*** Output Arguments
+** Command Query Separation 
+- function should either do something or answer something, but not both
+*** Prefer Exceptions to Returning Error Codes
+- returning error codes from functions is a subte violation of command query separation
+*** Extract Try/Catch Blocks
+- they are ugly and confusing so it's better to extract the bodies of the try and catch blocks out into functions of their own
+*** Error Handling Is One Thing
+- functions should do one thing, error handling is one thing, thus a function that handles errors should do nothing else
+*** The Error.java Dependency Magnet
+- when you use exceptions rather than error codes, then new expectations are derivaties of the exception class - they can be added without forcing any recompilation or redeployment
+*** Don't Repeat Yourself
+- duplication may be the root of all evil in software
+**** Structured Programming
+- every function, every block within a function should have one entry and one exit
+- there should only be one return statement in a function, no break or continue statements in a loop and never any ~goto~ statements
+- these rules serve little benefit when functions are very small - it is only in larger functions, that such rules provide significant benefit
+**** How Do You Write Functions Like This?
+- you get your thoughts down first, then you massage it until it reads well - the first draft might be clumsy and disorganized, so you wordsmith it and restructure it and refine it until it reads the way you want it to read
+*** Conclusion
+- functions are verbs of a language and classes are the nouns
+* Chapter 4: Comments
+- comments are, at best, a necessary evil
+- if our programming languages were expressive enough, or if we had the talent to subtly wield those languages to express our interest, we would not need comments very much
+- comments lie, not intentionally... but the older a comment is, and the farther away it is from the code it describes, the more likely it is to be just plain wrong, becuause Programmers can't realistically maintain them
